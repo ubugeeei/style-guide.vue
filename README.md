@@ -290,11 +290,12 @@ When using global state, always document the state lifecycle: transitions and sc
 
 - Do not use CSS pre-processors (SCSS, Sass, etc.)
 - Do not use utility classes (Tailwind, etc.)
+- Treat CSS Nesting as the default. When selectors share the same root, nest them instead of repeating flat selectors
+- Use Lightning CSS for downcompilation if needed
 - Do not use `v-bind` in `<style>`
 - Avoid `:style` bindings. Prefer CSS variables and class switching
 - Avoid magic values. Use CSS custom properties (`var(--*)`) instead of hardcoded literals
 - Prefer semantic selectors (`article`, `nav`, `h2`, `[aria-expanded]`, etc.) over class-heavy markup
-- Use CSS Nesting (use Lightning CSS for downcompilation if needed)
 
 ```vue
 <style scoped>
@@ -305,7 +306,15 @@ When using global state, always document the state lifecycle: transitions and sc
     font-size: 1.25rem;
   }
 
+  & .description {
+    color: var(--color-text-muted);
+  }
+
   &:hover {
+    border-color: var(--color-primary);
+  }
+
+  &[data-active="true"] {
     border-color: var(--color-primary);
   }
 }
