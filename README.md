@@ -220,8 +220,26 @@ function useCounter() {
 - If you need `nextTick`, revisit your design first
 - All async operations must handle race conditions. Use `AbortController` to cancel stale requests and guard against stale closures
 - Design error handling deliberately and document it. `throw`, `onErrorCaptured`, and error boundaries are hard to reason about — make error flows explicit and traceable
-- Avoid direct DOM access via template refs or `document.*`. Raw DOM manipulation introduces scheduler coupling and makes `nextTick` issues harder to reason about
-- When using template refs, always define `defineExpose` to make the public interface explicit
+- Avoid direct DOM access via `document.*`. Prefer declarative bindings first, and only reach for DOM access when there is no better Vue-level abstraction
+- When a template ref is necessary, use `useTemplateRef()` as the default. Do not manually pair `ref(null)` with template `ref="..."`
+- Use template refs as the single entry point for unavoidable DOM or child-component access. Raw DOM manipulation still introduces scheduler coupling and makes `nextTick` issues harder to reason about
+- When exposing a child component through a template ref, always define `defineExpose` to make the public interface explicit
+
+```vue
+<script setup lang="ts">
+import { onMounted, useTemplateRef } from "vue";
+
+const input = useTemplateRef<HTMLInputElement>("input");
+
+onMounted(() => {
+  input.value?.focus();
+});
+</script>
+
+<template>
+  <input ref="input" />
+</template>
+```
 
 ## Props, Emits & Slots
 
