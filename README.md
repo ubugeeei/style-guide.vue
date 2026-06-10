@@ -20,6 +20,7 @@ Take what resonates, ignore what doesn't.
 - Always explicitly import components in `<script setup>`. Do not rely on global registration
 - Do not use custom directives or custom blocks
 - Do not use JavaScript classes. Prefer plain objects and functions
+- Aim to keep each file within roughly 300 lines
 - Prefer controlled components. Avoid uncontrolled components that manage their own state internally
 - When handling URLs, always read `baseUrl` from configuration. Never hardcode it
 - Use Vite+ alpha (`vite-plus`) as the standard toolchain and package-management entrypoint
